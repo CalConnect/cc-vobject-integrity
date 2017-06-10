@@ -1,0 +1,14 @@
+# Instructions
+
+# Installation
+
+```
+brew install cryptopp
+bundle
+```
+
+# Running
+
+```
+bundle exec script.rb
+```
