@@ -1,0 +1,209 @@
+[[checksum_validation]]
+== Integrity Validation
+
+=== Integrity In The vObject Life Cycle
+
+Data integrity is important during storage and transmission of a
+vObject.
+
+If an implementation stores vObjects directly on disk or in memory,
+it is *RECOMMENDED* that:
+
+* Immediately prior to saving on target medium, a CHECKSUM is
+  calculated and stored; and
+* Immediately after retrieval from target medium, the included
+  CHECKSUM is verified to ensure that it has not been corrupted.
+
+An implementation that supports CHECKSUM *MUST* adhere to the
+following rules:
+
+* If it supports vObject import (including network import), it
+  *MUST* verify the provided CHECKSUM property value immediately prior
+  to import to ensure the vObject has not been damaged.
+
+* If it supports vObject export (including network export), it
+  *MUST* insert at least one CHECKSUM property with corresponding
+  checksum values to the vObject immediately prior to exporting, to
+  ensure the recipient of the vObject can check against data
+  integrity.
+
+
+=== vObject Validity States
+
+There are 3 validity states of a vObject:
+
+Valid:: This vObject is not corrupt.
+
+Invalid:: This vObject is corrupt.
+
+Unable to determine:: This vObject does not provide enough
+information to make a validity judgement.
+
+
+=== Definitions
+
+Implementation Supported Checksum:: An implementation is considered to
+"support checksum calculation" if it is able to calculate the checksum
+without external aid, i.e., it supports the parameters specified to
+calculate the checksum value.
+
+Source Preferred Checksum Value (SPCV):: A CHECKSUM property that includes a PREF property parameter.
+
+Receiver Preferred Checksum Value (RPCV):: The CHECKSUM property that uses the implementation's preferred
+checksum parameters.
+
+
+=== Integrity Validity When Presented With A Single CHECKSUM Property
+
+Given one CHECKSUM property, an implementation that supports the
+CHECKSUM property *SHOULD* reach the following conclusions about the
+vObject:
+
+* Valid. The vObject is intact. Calculation by the implementation of
+  the vObject's CHECKSUM property value was identical to the provided
+  checksum value.
+
+* Invalid. The vObject is corrupted. Calculation by the
+  implementation of the vObject's CHECKSUM resulted in a different
+  value as the provided checksum value.
+
+* Unverified. The implementation is unable to determine data integrity
+  of the vObject.
+
+** The vObject did not have a CHECKSUM property and therefore its
+  data integrity cannot be verified.
+
+** The vObject had a CHECKSUM property with a blank value and
+  therefore its data integrity cannot be verified. This also signifies
+  that the originator implementation was not able to calculate a
+  CHECKSUM value.
+
+** The vObject had a CHECKSUM property with a value but the current
+  implementation does not support the chosen hash function,
+  therefore its data integrity cannot be verified.
+
+
+=== Integrity Validity When Presented With Multiple CHECKSUM Properties
+
+If a vObject has more than one non-empty CHECKSUM property, an
+implementation should validate according to the rules below.
+
+. In the order of preference stated (PREF parameter value), validate
+   all supported SPCV until one is verified.
+
+** If a vObject can be validated to any SPCV, it is deemed valid.
+
+** If all SPCVs are invalid, the vObject fails validation.
+
+. If a vObject does not have any SPCV, or the implementation does
+   not support any SPCV, but contains a supported CHECKSUM
+   property
+
+** If the CHECKSUM property value is valid, the vObject is deemed
+     valid.
+
+** Otherwise, the vObject fails validation.
+
+
+////
+Existing CHECKSUM properties in a vObject with empty CHECKSUM values
+("" the empty string) mean that the originator of this vObject, which
+could be a CUA or server application, was not able to calculate the
+specified CHECKSUM value. When an implementation sees this and is able
+to calculate the value, it *SHOULD* attempt to calculate and insert it to
+the vObject.
+////
+
+
+== Method of CHECKSUM Value Calculation
+
+The following method to calculate CHECKSUM is devised for these desired
+properties:
+
+* Stable across alternative representation formats of the vCard and
+  iCalendar, such as xCard/jCard.
+
+* Allows comparison of equivalence of content rather than formatting.
+  E.g., addition of new-lines within a vCard and order of listed
+  properties do not affect the resulting checksum value.
+
+
+For implementations that handle CHECKSUM, its calculation *MUST* be
+performed after all property updates including REV, which is often
+updated during save.
+
+Steps to calculate CHECKSUM:
+
+. Calculate the hash value of the vObject
+
+.. Determine the need to add a new CHECKSUM property.
+
+*** If there is no existing CHECKSUM property, add it as the last
+     property of the vObject, with the selected cryptographic hash
+     algorithm type and the selected hash parameters. Its value should
+     be set to "" (empty string).
+
+*** If there is an existing CHECKSUM property:
+
+**** If its parameters are identical to the user's current settings
+     (or the CUA's defaults), there is no need to add an extra
+     CHECKSUM property. Set its value to "" (empty string).
+
+**** Otherwise, add the extra CHECKSUM property as described above.
+
+.. Calculate hash of each property individually (including the
+     newly added CHECKSUM property).
+
+... Obtain string representation of a property.
+
+.... Obtain string representation of a property parameter.
+
+..... Normalize property parameter values.
+
+...... Sort property parameter values alphabetically.
+
+...... Concatenate property parameter values.
+
+..... Normalize property parameter key: cast to uppercase.
+
+..... Concatenate string form of property parameter key, value type
+           and values.
+
+.... Normalize property key: cast to uppercase.
+
+.... Normalize property value type: fill in value type if missing, and
+         cast to uppercase.
+
+.... Normalize property values.
+
+..... Sort property values alphabetically.
+
+..... Concatenate property values.
+
+.... Concatenate string form of property key, value type and values.
+
+... Calculate hash of a property using the selected cryptographic
+       hash function on the string representation of the property.
+
+... Convert hash into a normalized string representation.
+
+.. Concatenate hashes (in string representation) of the collection of
+     properties.
+
+.. Calculate hash of the combined properties using the selected
+     cryptographic hash function on the string representation of the
+     collection of properties.
+
+. This procedure is repeated to calculate the value for every CHECKSUM
+   property (which may specify different cryptographic hash algorithms
+   and parameters), with all CHECKSUM values set to "" (empty string)
+   for calculation consistency.
+
+** If the implementation is unable to calculate the CHECKSUM due
+   to unsupported or unrecognized parameters of a CHECKSUM property,
+   assign the "" (empty string) as its value.
+
+. Enter the calculated CHECKSUM value for each CHECKSUM property.
+
+. The checksum calculation procedure is complete.
+

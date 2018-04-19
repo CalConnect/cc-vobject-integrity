@@ -1,0 +1,8 @@
+<reference anchor='WHIRLPOOL' target='http://www.larc.usp.br/~pbarreto/WhirlpoolPage.html'>
+  <front>
+    <title>The WHIRLPOOL Hashing Function</title>
+    <author fullname='Vincent Rijmen' initials='V.' surname='Rijmen'></author>
+    <author fullname='Paulo S. L. M. Barreto' initials='P. S. L. M.' surname='Barreto'></author>
+    <date month='November' year='2000'/>
+  </front>
+</reference>

@@ -1,0 +1,55 @@
+== Implementation Notes
+
+=== vCard REV Update Guidelines For The CHECKSUM Property
+
+Updating of the CHECKSUM property value should not affect the REV value
+of a vCard. However, if a CHECKSUM property is newly inserted, or its
+parameters changed (such as HASHA or HASHP), then the REV value should
+be updated according to <<RFC6350>>.
+
+
+=== Calculating CHECKSUM From An xCard
+
+Implementers *MUST* ignore individual parameter value types in xCard
+(<<RFC6351,6>>, Appendix A 4.1) during CHECKSUM value calculation
+to be compatible with vCard and jCard, as individual parameter value
+types are implicit (not explicitly represented) in both vCard and jCard
+properties.
+
+=== Backwards Compatibility Concerns
+
+If an implementation does not support the CHECKSUM property, it
+*MUST* ignore the CHECKSUM property entirely without providing it
+any value. If an incorrect value is provided, the receiving end of
+this vObject may falsely assume that the vObject is broken.
+
+
+=== Unsupported Property Parameters
+
+* If an implementation supports the CHECKSUM property but not certain
+  parameters (e.g., a specified hash function), it *MUST* leave
+  that property value empty as the insertion of the CHECKSUM property
+  indicates the wish of the user to utilize it.
+
+* If an implementation supports the CHECKSUM property, it *MUST*
+  calculate the checksum values for every CHECKSUM property in the
+  vObject.
+
+
+=== Recommendations for Client User Applications
+
+==== User Experience
+
+* The CUA *SHOULD* honestly reflect checksum validation results to the
+  user to allow further action from the user, e.g., to seek
+  retransmission of the vObject.
+
+
+==== Ongoing Improvements
+
+* Cryptographic hash algorithms can break overtime. There will be a time
+  when best practice designates a better one, CUA *SHOULD* take this in
+  mind and promote best practice to update its security profile.
+
+
+

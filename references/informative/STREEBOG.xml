@@ -1,0 +1,22 @@
+<reference anchor='STREEBOG' target='https://www.streebog.net'>
+  <front>
+    <title>Information technology – Cryptographic data security –
+    Hash-function, National Standard of the Russian Federation GOST R
+    34.11-2012</title>
+    <author>
+      <organization>Federal Agency on Technical Regulation and Metrology,
+      Information technology</organization>
+      <address>
+        <uri>http://www.gost.ru</uri>
+      </address>
+    </author>
+
+    <!--<author firstname='Sergey' surname='Grebnev'></author>-->
+    <!--<author firstname='Andrey' surname='Dmukh'></author>-->
+    <!--<author firstname='Denis' surname='Dygin'></author>-->
+    <!--<author firstname='Dmirty' surname='Matyukhin'></author>-->
+    <!--<author firstname='Vladimir' surname='Rudskoy'></author>-->
+    <!--<author firstname='Vasily' surname='Shishkin'></author>-->
+    <date day='1' month='January' year='2013'/>
+  </front>
+</reference>

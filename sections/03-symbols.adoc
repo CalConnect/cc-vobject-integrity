@@ -1,0 +1,333 @@
+
+[[symbols]]
+== Symbols And Abbreviations
+
+=== Functions
+
+These functions are *REQUIRED* and *MUST* be implemented
+for compliance to this document.
+
+==== SORT
+
+Sorts an list according to alphabetical order (A-Z).
+
+
+==== UPCASE
+
+This function makes all alphabets in the input string uppercase. The
+input is expected to be encoded in US-ASCII.
+
+[source]
+----
+UPCASE(s) = upcase(char(s, 1)) + upcase(char(s, 2)) + ...
+----
+
+where:
+
+* stem:[+] indicates concatenation;
+* `char(s, i)` is the i-th character of string `s`,
+* `upcase(c)` outputs the "uppercase" equivalent of character `c`.
+
+
+==== LIST-TO-TEXT
+
+This function returns a Unicode string (<<RFC8259,7>>)
+containing a string representation of a list of string values, each
+followed by a selected delimiter character.
+
+[source]
+----
+LIST-TO-TEXT(list, delimiter) =
+  value(list, 1) + delimiter +
+  value(list, 2) + delimiter +
+  ...
+  value(list, last-element-position(list))
+----
+
+where:
+* `+` indicates concatenation;
+* `value(l, i)` is the i-th value in the list `l` in string representation;
+* `last-element-position(a)` returns the last element position of list
+  `l`.
+
+
+==== NORMALIZE-PROPERTY-PARAMETER-KEY
+
+This function returns a Unicode string (<<RFC8259,7>>)
+representation of the normalized property parameter key.
+
+[source]
+----
+NORMALIZE-PROPERTY-PARAMETER-KEY(parameter) = UPCASE(key(parameter))
+----
+
+where:
+* `+` indicates concatenation;
+* `key(parameter)` is the property parameter key.
+
+
+
+==== NORMALIZE-PROPERTY-PARAMETER-VALUES
+
+This function returns a Unicode string (<<RFC8259,7>>)
+representation of the normalized property parameter values.
+
+[source]
+----
+NORMALIZE-PROPERTY-PARAMETER-VALUES(parameter) =
+  LIST-TO-TEXT(
+    SORT(
+      values(parameter, 1),
+      values(parameter, 2),
+      ...
+    ),
+    ";"
+  )
+----
+
+where:
+* `+` indicates concatenation;
+* `values(parameter, i)` is the i-th property parameter value in
+  `parameter`.
+
+
+==== NORMALIZE-PROPERTY-PARAMETER
+
+Converts a property parameter into a string, with its key and values.
+
+This function returns a Unicode string (<<RFC8259,7>>)
+containing a sequence of zero or more list values in string format,
+each followed by a ';' character.
+
+[source]
+----
+NORMALIZE-PROPERTY-PARAMETER(parameter) =
+  "{" +
+    NORMALIZE-PROPERTY-PARAMETER-KEY(property) + ":" +
+    NORMALIZE-PROPERTY-PARAMETER-VALUES(property) +
+  "}"
+----
+
+where:
+* + indicates concatenation.
+
+
+==== NORMALIZE-PROPERTY-PARAMETERS
+
+This function returns a Unicode string (<<RFC8259,7>>)
+representation of a set of property parameters.
+
+We exclude the `VALUE` property parameter in this calculation (such as
+`VALUE=TEXT`) as this information is represented in
+NORMALIZE-PROPERTY-VALUE-HASHA.
+
+[source]
+----
+NORMALIZE-PROPERTY-PARAMETERS(property) =
+  "#" +
+  LIST-TO-TEXT(
+    SORT([
+      NORMALIZE-PROPERTY-PARAMETER(parameter(property, 1)),
+      NORMALIZE-PROPERTY-PARAMETER(parameter(property, 2)),
+      ...
+    ]),
+    ";"
+  )
+----
+
+where:
+* + indicates concatenation;
+* parameters(property, i) is the i-th parameter of `property`.
+
+
+==== NORMALIZE-PROPERTY-KEY
+
+This function returns a Unicode string (<<RFC8259,7>>)
+representation of the normalized property key.
+
+[source]
+----
+NORMALIZE-PROPERTY-KEY(property) = UPCASE(key(property))
+----
+
+where:
+* + indicates concatenation;
+* key(property) is the property key;
+* UPCASE(s) is function that makes all alphabets in the string s
+  uppercase.
+
+
+==== NORMALIZE-PROPERTY-VALUE-HASHA
+
+This function returns a Unicode string (<<RFC8259,7>>)
+representation of the normalized property value type. Since the property
+value type is represented here, we exclude the `VALUE` property
+parameter in NORMALIZE-PROPERTY-PARAMETERS (such as `VALUE=TEXT`)
+
+[source]
+----
+NORMALIZE-PROPERTY-VALUE-HASHA(property) = UPCASE(type(property))
+----
+
+where:
+* + indicates concatenation;
+* type(property) is the property value type, if not explicitly provided,
+  it should be filled in according to <<RFC6350>>;
+* UPCASE(s) is function that makes all alphabets in the string s
+  uppercase.
+
+
+==== NORMALIZE-PROPERTY-VALUES
+
+This function returns a Unicode string (<<RFC8259,7>>)
+representation of the normalized property values.
+
+Certain content types allow storing multiple values (as a list) in the
+same property line. For example, in the ADR and N properties, values are
+separated by the ";" delimiter, while in NICKNAME and CATEGORIES they
+are separated by the "," delimiter <<RFC6350,3.3>>.
+
+[source]
+----
+NORMALIZE-PROPERTY-VALUES(property) =
+  LIST-TO-TEXT(
+    SORT(
+      values(property, 1),
+      values(property, 2),
+      ...
+    ),
+    ";"
+  )
+----
+
+where:
+* + indicates concatenation;
+* values(property, i) is the i-th property value in `property`.
+
+
+==== NORMALIZE-PROPERTY
+
+This function returns a Unicode string (<<RFC8259,7>>)
+representation of a single property.
+
+[source]
+----
+NORMALIZE-PROPERTY(property) =
+  NORMALIZE-PROPERTY-KEY(property) + ":" +
+  NORMALIZE-PROPERTY-VALUE-HASHA(property) + "/" +
+  NORMALIZE-PROPERTY-VALUES(property) + "?" +
+  NORMALIZE-PROPERTY-PARAMETERS(property)
+----
+
+where:
+* + indicates concatenation
+
+
+==== HASH-PROPERTY
+
+This function returns a Unicode string (<<RFC8259,7>>)
+representation of a single property.
+
+[source]
+----
+HASH-PROPERTY-TO-TEXT(property) =
+  NORMALIZE-PROPERTY-KEY(property) + ":" +
+  HASH(NORMALIZE-PROPERTY(property)
+----
+
+where:
+* + indicates concatenation
+
+
+==== HASH-AND-NORMALIZE-PROPERTIES
+
+This function returns a Unicode string (<<RFC8259,7>>)
+representation of a set of properties.
+
+[source]
+----
+HASH-AND-NORMALIZE-PROPERTIES(properties) =
+  LIST-TO-TEXT(
+    SORT([
+      HASH-PROPERTY(property(properties, 1)),
+      HASH-PROPERTY(property(properties, 2)),
+      ...
+    ]),
+    CRLF
+  )
+----
+
+where:
+* + indicates concatenation;
+* property(properties, i) is the i-th property of `properties`;
+* HASH(s) is selected cryptographic hash function applied to string `s`.
+
+
+==== NORMALIZE-COMPONENT-NAME
+
+This function returns a Unicode string (<<RFC8259,7>>)
+representation of the normalized vObject name.
+
+[source]
+----
+NORMALIZE-COMPONENT-NAME(component) = UPCASE(name(component))
+----
+
+where:
+* name(c) is the component name of component `c`.
+
+
+==== NORMALIZE-COMPONENT
+
+This function returns a Unicode string (<<RFC8259,7>>)
+representation of a vObject. The similarity of this representation
+with the vObject structure is intentional for readability purposes.
+
+[source]
+----
+NORMALIZE-COMPONENT(component) =
+  "BEGIN:" + NORMALIZE-COMPONENT-NAME(component) + ":CHECKSUM" + CRLF +
+    HASH-AND-NORMALIZE-PROPERTIES(properties(component)) + CRLF +
+  "END:" + NORMALIZE-COMPONENT-NAME(component) + ":CHECKSUM"
+----
+
+where:
+* + indicates concatenation;
+* properties(c) returns the properties of the component `c` in an list;
+
+
+==== HASH-COMPONENT
+
+This function returns a Unicode string (<<RFC8259,7>>) as the
+output of a selected cryptographic hash function applied on a
+vObject.
+
+[source]
+----
+HASH-COMPONENT(component) = HASH(NORMALIZE-COMPONENT(component))
+----
+
+==== HASH
+
+This function returns the calculated hash of an input string and outputs
+the hash in string representation.
+
+[source]
+----
+HASH(string) = generate-hash-function(
+                 selected-hash-function,
+                 selected-hash-parameters
+               )(string)
+----
+
+where:
+* `generate-hash-function(a, p)` creates a new cryptographic hash function
+  that uses the hash algorithm `a` with algorithm parameters `p` which
+  takes a string input and generates the hash using a string output;
+* `selected-hash-function` is the selected cryptographic hash algorithm
+  selected by the user (and/or CUA);
+* `selected-hash-parameters` are the selected parameters for the
+  selected cryptographic hash function by the user (and/or CUA), and
+  could be different per algorithm.
+
+

@@ -1,0 +1,10 @@
+<reference anchor='BLAKE2' target='https://blake2.net/blake2.pdf'>
+  <front>
+    <title>BLAKE2: simpler, smaller, fast as MD5</title>
+    <author fullname='Jean-Philippe Aumasson' initials='J-P.' surname='Aumasson'></author>
+    <author fullname='Samuel Neves' initials='S.' surname='Neves'></author>
+    <author fullname='Zooko Wilcox-O&#39;Hearn' initials='Z.' surname='Wilcox-O&#39;Hearn'></author>
+    <author fullname='Christian Winnerlein' initials='C.' surname='Winnerlein'></author>
+    <date month='January' year='2013'/>
+  </front>
+</reference>

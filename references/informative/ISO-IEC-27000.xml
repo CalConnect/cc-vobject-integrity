@@ -1,0 +1,15 @@
+<reference anchor='ISO-IEC-27000' target='http://www.iso.org/iso/catalogue_detail?csnumber=66435'>
+  <front>
+    <title>ISO/IEC 27000:2016, Information technology -- Security techniques
+    -- Information security management systems -- Overview and vocabulary
+    </title>
+    <author>
+      <organization>ISO/IEC</organization>
+      <address>
+        <uri>http://www.iso.org</uri>
+      </address>
+    </author>
+    <date month='February' year='2016'/>
+    <abstract><t></t></abstract>
+  </front>
+</reference>

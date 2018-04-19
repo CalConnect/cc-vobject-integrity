@@ -1,0 +1,42 @@
+
+[[alternative]]
+== Alternative vObject Representations
+
+=== xCard
+
+The XML representation <<RFC6351>> of the CHECKSUM property follows the
+example shown below. For this property, the value type *MUST* be set
+to "text" and parameter "type" *MUST* also be set to "text".
+
+[source=xml]
+----
+<checksum>
+  <parameters>
+    <hasha>
+      <text>sha224</text>
+    </hasha>
+    <pref>
+      <integer>99</integer>
+    </pref>
+  </parameters>
+  <text>22e92efac9d7b0e63695a9d960376ace1e69eb317e3d42c5c94f1401</text>
+</checksum>
+----
+
+
+=== jCard
+
+//<!-- TODO -->
+
+The JSON representation of the CHECKSUM property follows <<RFC7095>> as
+the example shown below.
+
+[source=json]
+----
+["checksum",
+  { "hasha": "sha224", "pref": "99" },
+  "text",
+  "22e92efac9d7b0e63695a9d960376ace1e69eb317e3d42c5c94f1401"
+]
+----
+

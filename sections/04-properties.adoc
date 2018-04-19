@@ -1,0 +1,89 @@
+
+[[properties]]
+== Properties
+
+Property cardinalities are indicated in the same method as provided by
+<<RFC6350>> based on ABNF <<RFC5234,3.6>>.
+
+
+[[property_checksum]]
+=== CHECKSUM
+
+These registration details for the CHECKSUM property adhere to rules
+specified in <<RFC6350,10.2.1>>.
+
+
+==== Namespace
+
+Nil.
+
+==== Property name
+
+CHECKSUM
+
+==== Purpose
+
+Allows content integrity detection and verification against
+data corruption of a vObject.
+
+==== Value type
+
+A single text value.
+
+==== Cardinality
+
+`*`
+
+==== Property parameters
+
+HASHA, HASHP
+
+==== Value
+
+TEXT
+
+==== Description
+
+CHECKSUM is an *OPTIONAL* property of a vObject. There can be
+multiple CHECKSUM properties within the same vObject. vObject
+client implementations are *RECOMMENDED* to implement CHECKSUM for a
+basic level of integrity guarantee.
+
+The CHECKSUM value used to compare the checksum of data should be
+selected in this way:
+
+* the highest PREF value among all CHECKSUM properties; then
+* the most applicable HASHA algorithm taking into account collision
+  resistance and application support.
+
+==== Format definition
+
+ABNF:
+
+[source=abnf]
+----
+CHECKSUM-param =  "VALUE=text"
+CHECKSUM-param =  pid-param / pref-param / altid-param /
+                  checksum-param-hasha / checksum-param-hashp /
+                  iana-token
+
+CHECKSUM-value = TEXT
+  ; Value type and VALUE parameter MUST match.
+----
+
+
+[[property_checksum_examples]]
+==== Examples
+
+[source]
+----
+CHECKSUM:
+  ad58ca4f14b317dea48987f4991bdcd56fdf0f6a95049623f0fe5c4453d157e0
+
+CHECKSUM;PREF=99:
+  3ac0e03cccda6663ed32052749cc5c607d88e381f9cfcb795317bc39a57909e3
+
+CHECKSUM;HASHA=sha224:
+  22e92efac9d7b0e63695a9d960376ace1e69eb317e3d42c5c94f1401
+----
+

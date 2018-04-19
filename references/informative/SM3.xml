@@ -1,0 +1,12 @@
+<reference anchor='SM3' target='http://www.oscca.gov.cn/UpFile/20101222141857786.pdf'>
+  <front>
+    <title>SM3 Cryptographic Hash Algorithm</title>
+    <author>
+      <organization>State Cryptography Administration of China</organization>
+      <address>
+        <uri>http://www.sca.gov.cn</uri>
+      </address>
+    </author>
+    <date day='17' month='December' year='2010'/>
+  </front>
+</reference>

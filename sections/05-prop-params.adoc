@@ -1,0 +1,157 @@
+
+[[property_parameters]]
+== Property Parameters
+
+The CHECKSUM allowed property parameters of `PID`, `PREF`, `ALTID`
+have the same meaning as on other properties <<RFC6350>>.
+
+
+=== PREF Property Parameter
+
+The `PREF` property parameter indicates the preference of the vCard
+author on which CHECKSUM value to put most weight on.
+
+Usage of this parameter is further explained in
+<<checksum_validation>>.
+
+
+[[parameter_hasha]]
+=== HASHA Property Parameter
+
+Registration details for the HASHA property parameter adhere to rules
+specified in <<RFC6350,10.2.1>>
+
+==== Namespace
+
+Nil.
+
+==== Parameter name
+
+HASHA
+
+==== Purpose
+
+Specify the hash function used for the property value
+
+==== Description
+
+Possible values are defined in <<vc_hash_function_registry>>.
+
+The HASHA Property Parameter *MUST* not be applied on properties
+other than CHECKSUM unless specified.
+
+New HASHA hash functions *MUST* be specified in a Standards Track
+RFC.
+
+==== Format definition
+
+ABNF:
+
+[source=abnf]
+----
+hasha-param = "HASHA=" hasha-value *("," hasha-value)
+
+hasha-value = "sha3-256" / iana-token / x-name
+; This is further defined in <<checksum_functions>>
+----
+
+==== Examples:
+
+[source=abnf]
+----
+CHECKSUM;HASHA=sha384:
+  4055b176af753e251bc269007569c8f9633e6227a5f9727381cfba0bbb44a0c9
+  25b8d31d72083d9cb4dc1da278f3a4e4
+----
+
+[source=abnf]
+----
+CHECKSUM;HASHA=streebog256:
+  TODO
+----
+
+
+
+
+[[parameter_hashp]]
+=== HASHP Property Parameter
+
+Certain hash functions such as extendable output functions (XOFs) can be
+customized:
+
+* SHAKE-128, SHAKE-256, cSHAKE-128, cSHAKE256, ParallelHash128,
+  ParallelHash256 support customizable hash value length.
+* cSHAKE-128, cSHAKE-256, support function name customization.
+* cSHAKE-128, cSHAKE-256, ParallelHash128, ParallelHash256 support
+  customizable bit strings.
+* ParallelHash128, ParallelHash256 support customizable block sizes for
+  parallel hashing.
+
+Since each hash function may take different specifiers, each hash
+function identifier *MAY* specify its own set of HASHP specifiers in a
+particular order. The parameter value(s) entered *MUST* conform to the
+hash function's specification in a Standards Track RFC. An
+implementation *MUST* follow the value type interpretation specified
+for the hash function.
+
+For example, in <<supported_table>>, the cSHAKE-128 algorithm (with the
+identifier `cshake128`) takes `(L, N, S)` as input, where L is an
+integer to specify the output bit length, N is a text string
+representing the function name, S is a text string for customization
+purposes. When given a HASHP parameter value "512,address book,Orange",
+for the HASHA identifier `cshake128`, the implementation *MUST*
+recognize that L is the integer 512, N is the string "address book", and
+S is the string "Orange".
+
+
+Registration details for the HASHP property parameter adhere to rules
+specified in <<RFC6350,10.2.1>>
+
+==== Namespace
+
+Nil.
+
+==== Parameter name
+
+HASHP
+
+==== Purpose
+
+Describe hash function specifiers used for the property value.
+
+==== Description
+
+Provide specifiers for the HASHA hash function used to calculate the
+property value.
+
+Possible values are defined in <<vc_hash_function_specifier_registry>>.
+
+The HASHP Property Parameter *MUST* not be applied on properties
+other than CHECKSUM unless specified.
+
+
+==== Format definition
+
+ABNF:
+
+[source=abnf]
+----
+hashp-param = "HASHP=" hashp-value *("," hashp-value)
+
+hashp-value = param-value
+; This list of values must be specified in the exact order and value
+  type defined in <<supported_table>>
+----
+
+Example(s):
+[source=abnf]
+----
+CHECKSUM;HASHA=shake128;HASHP=512,"Directory Service Identifier":
+  TODO
+----
+
+[source=abnf]
+----
+CHECKSUM;HASHA=parallelhash128;HASHP=64,512:
+  TODO
+----

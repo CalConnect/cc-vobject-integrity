@@ -1,0 +1,124 @@
+== Using CHECKSUM With Server Support
+
+=== Usage of CHECKSUM in vCards on CardDAV servers
+
+CardDAV servers are *RECOMMENDED* to calculate and provide an extra
+CHECKSUM property for al vCard retrieval requests in order to provide a
+base level of integrity guarantee.
+
+The CHECKSUM property and its parameters are fully compatible with the
+CardDAV mechanism described in <<RFC6352>>.
+
+
+==== Creating And Updating Address Object Resources
+
+<<RFC6352,6.3.2>> specifies how to create address object
+resources.
+
+An implementation abiding to this specification *MUST* augment this
+process according to the following.
+
+
+===== Client Implementations Should Transmit With CHECKSUM
+
+* When a client issues a PUT to create an address object resource, a
+  CHECKSUM property *SHOULD* be included in the request.
+
+* The CHECKSUM property value *MAY* be empty if the client wishes the
+  server to calculate the value according to the given HASHA and/or
+  HASHP parameters.
+
+
+==== Additional Server Semantics for PUT, COPY and MOVE
+
+This specification creates an additional precondition and postcondition
+for the PUT, COPY, and MOVE methods when:
+
+* A PUT operation requests an address object resource to be placed into
+  an address book collection; and
+
+* A COPY or MOVE operation requests an address object resource to be
+  placed into (or out of) an address book collection.
+
+
+===== Only Admit Valid vCard Data From Client
+
+===== Additional Precondition
+
+`(CARDDAV:valid-address-data-checksum)` The address object resource
+submitted in the PUT request, or targeted by a COPY or MOVE request,
+contains a CHECKSUM property:
+
+* The address object resource's integrity *MUST* be valid as
+  determined by methods of this specification.
+
+* If the resource contains an empty CHECKSUM property value, the
+  server *SHOULD* fill in the property value with its own
+  calculation.
+
+* The CHECKSUM property value *SHOULD* be stored by the server to
+  enable data integrity verification.
+
+* If the resource CHECKSUM is deemed invalid, the server *SHOULD*
+  respond with a `409` (Conflict) status to indicate to the client so,
+  hence the `<CARDDAV:valid-address-data-checksum>` condition is not
+  met. In this case, the client may choose to empty the CHECKSUM
+  property value for re-submission.
+
+
+===== Resolve Discrepancy Between Server And Client vCard Data
+
+Certain servers perform silent changes or cleanups of client provided
+vCard data when stored as address object resources, such as the order of
+property parameters or scrubbed values.
+
+The resulting vCard data stored on the server (and when returned back to
+the client) may end up different than that of the client without its
+knowledge. It is therefore necessary for the client to be reported on
+such modifications.
+
+===== Additional Postcondition
+
+`(CARDDAV:resource-not-modified)`: The address object resource should
+not be modified by the server such that its original CHECKSUM value
+becomes invalid.
+
+* After action execution, the server should re-calculate the CHECKSUM
+property value based on the retrieved address object resource.
+
+* If the CHECKSUM property value is now different, the server
+*SHOULD* respond to client with the latest address object
+resource and the new CHECKSUM so that the client knows the
+resource has been changed by the server.
+
+
+=== Usage of CHECKSUM with CalDAV
+
+// TODO: If we really want iCalendar in here more work has to be done.
+
+The CalDAV <<RFC4791>> calendar access protocol allows clients and
+servers to exchange iCalendar data. iCalendar data is typically
+stored in calendar object resources on a CalDAV server.
+
+A CalDAV server is *RECOMMENDED* to return iCalendar data with
+integrity protection.
+
+==== Creating Calendar Resources
+
+A CalDAV client typically updates the calendar object resource data via
+an HTTP PUT request, which requires sending the entire iCalendar object
+in the HTTP request body.
+
+
+=== Usage of CHECKSUM with iTIP
+
+iTIP <<RFC5546>> defines how iCalendar data can be sent between
+calendar user agents to schedule calendar components between calendar
+users.
+
+This specification is compatible with iTIP transfer of iCalendar data.
+
+
+
+
+

@@ -1,0 +1,380 @@
+
+[appendix]
+[[appendix-a]]
+== Examples
+
+=== vCard CHECKSUM
+
+==== Original vCard
+
+[source]
+----
+BEGIN:VCARD
+VERSION:4.0
+KIND:individual
+FN:Martin Van Buren
+N:Van Buren;Martin;;;Hon.
+TEL;VALUE=uri;PREF=1;HASHA="voice,home":tel:+1-888-888-8888;ext=8888
+END:VCARD
+----
+
+==== Setup
+
+Location of the CHECKSUM property within the VCARD component does not
+matter as the method of calculation is agnostic with regards to line
+location of a property.
+
+vCard extended with CHECKSUM property for CHECKSUM calculation at the
+last line, specifying the `sha512` algorithm and value type `STRING`:
+
+[source]
+----
+BEGIN:VCARD
+VERSION:4.0
+KIND:individual
+FN:Martin Van Buren
+N:Van Buren;Martin;;;Hon.
+TEL;VALUE=uri;PREF=1;TYPE="voice,home":tel:+1-888-888-8888;ext=8888
+CHECKSUM;VALUE=TEXT;HASHA=sha3-256:
+END:VCARD
+----
+
+==== Normalization: Properties
+
+[source]
+----
+NORMALIZE-PROPERTY("VERSION:4.0") =
+  "VERSION:TEXT/[4.0]?#[]"
+
+NORMALIZE-PROPERTY("KIND:individual") =
+  "KIND:TEXT/[individual]?#[]"
+
+NORMALIZE-PROPERTY("FN:Martin Van Buren") =
+  "FN:TEXT/[Martin Van Buren]?#[]"
+
+NORMALIZE-PROPERTY("N:Van Buren;Martin;;;Hon.") =
+  "N:TEXT/[Van Buren;Martin;;;Hon.]?#[]"
+
+NORMALIZE-PROPERTY("TEL;VALUE=uri;PREF=1;HASHA="voice,home":") =
+  "TEL:URI/[tel:+1-888-888-8888;ext=8888]" +
+  "?#[{PREF:[1]};{TYPE:[home;voice]}]"
+
+NORMALIZE-PROPERTY("CHECKSUM;VALUE=TEXT;HASHA=sha512:") =
+  "CHECKSUM:TEXT/[]?#[{HASHA:[sha512]}]"
+----
+
+==== Cryptographic Hashing: Properties
+
+[source]
+----
+HASH("VERSION:TEXT/[4.0]?#[]") =
+  "de2a19b21ce6dbbafd3feedebf7560966242d4af0bac8e380024135809729ba4"
+
+HASH("KIND:TEXT/[individual]?#[]") =
+  "25603f59dc07e045b470e3d773da10e2485c078c80f4a048c2e1cbeb678ab406"
+
+HASH("FN:TEXT/[Martin Van Buren]?#[]") =
+  "a9124e1bd40c8a2cb4031b4140629e2472046f837dddc379a257d5f6e7bceedd"
+
+HASH("N:TEXT/[Van Buren;Martin;;;Hon.]?#[]") =
+  "c11eadabeee1252502ddc6c085e5bd7fd48ae183f50399b953bb78a927172dc5"
+
+HASH(
+  "TEL:URI/[tel:+1-888-888-8888;ext=8888]" +
+  "?#[{PREF:[1]};{HASHA:[home;voice]}]"
+) = "dc22433d7cb2445dd9f083a1d998ee00e8f2f369f0e18ddb827f8135f0d7b30d"
+
+HASH("CHECKSUM:TEXT/[]?#[{HASHA:[sha512]}]") =
+  "65d32764ab8c9fcdd324f24409c65a45529f4a6df5cd070378463a177de04917"
+----
+
+==== Normalization: Component
+
+[source]
+----
+HASH-AND-NORMALIZE-PROPERTIES(properties) = LIST-TO-TEXT(
+  [
+    "CHECKSUM:" +
+      HASH("CHECKSUM:TEXT/[]?#[{HASHA:[sha512];VALUE:[TEXT]}]"),
+    "FN:" +
+      HASH("FN:TEXT/[Martin Van Buren]?#[{VALUE:[TEXT]}]"),
+    "KIND:" +
+      HASH("KIND:TEXT/[individual]?#[{VALUE:[TEXT]}]"),
+    "N:" +
+      HASH("N:TEXT/[Van Buren;Martin;;;Hon.]?#[{VALUE:[TEXT]}]"),
+    "TEL:" +
+      HASH(
+        "TEL:URI/[tel:+1-888-888-8888;ext=8888]?" +
+        "#[{PREF:[1]};{HASHA:[voice;home]};{VALUE:[TEXT]}]"
+      ),
+    "VERSION:" +
+      HASH("VERSION:TEXT/[4.0]?#[{VALUE:[TEXT]}]")
+  ],
+  CRLF
+)
+----
+
+[source]
+----
+NORMALIZE-COMPONENT(component) =
+"BEGIN:VCARD:CHECKSUM
+CHECKSUM:65d32764ab8c9fcdd324f24409c65a45529f4a6df5cd070378463a177de04917
+FN:a9124e1bd40c8a2cb4031b4140629e2472046f837dddc379a257d5f6e7bceedd
+KIND:25603f59dc07e045b470e3d773da10e2485c078c80f4a048c2e1cbeb678ab406
+N:c11eadabeee1252502ddc6c085e5bd7fd48ae183f50399b953bb78a927172dc5
+TEL:dc22433d7cb2445dd9f083a1d998ee00e8f2f369f0e18ddb827f8135f0d7b30d
+VERSION:de2a19b21ce6dbbafd3feedebf7560966242d4af0bac8e380024135809729ba4
+END:VCARD:CHECKSUM
+"
+----
+
+==== Cryptographic Hashing: Component
+
+[source]
+----
+HASH-COMPONENT(component) =
+  "212f3486f968df73dc9b9f909e8dfedae866135aeef2ceeaa3393675806960d1"
+----
+
+==== Final Checksum
+
+This is the final checksum of this component using the `sha3-256` hash
+method.
+
+The final vCard:
+
+[source]
+----
+BEGIN:VCARD
+VERSION:4.0
+KIND:individual
+FN:Martin Van Buren
+N:Van Buren;Martin;;;Hon.
+TEL;VALUE=uri;PREF=1;HASHA="voice,home":tel:+1-888-888-8888;ext=8888
+CHECKSUM;VALUE=TEXT;HASHA=sha3-512:
+  212f3486f968df73dc9b9f909e8dfedae866135aeef2ceeaa3393675806960d1
+END:VCARD
+----
+
+
+=== Hash Functions Registry Examples
+
+[[hash_registry_sha224]]
+==== SHA-2 SHA-224
+
+[source]
+----
+input("BEGIN:VCARD") = "22e92efac9d7b0e63695a9d960376ace" +
+                       "1e69eb317e3d42c5c94f1401"
+----
+
+[[hash_registry_sha256]]
+==== SHA-2 SHA-256
+
+[source]
+----
+input("BEGIN:VCARD") = "99e3e442c1a5cbd115baa26d077c6bbb" +
+                       "423310cd4990051d8974c3b2d581c3d4"
+----
+
+[[hash_registry_sha384]]
+==== SHA-2 SHA-384
+
+[source]
+----
+input("BEGIN:VCARD") = "4055b176af753e251bc269007569c8f9" +
+                       "633e6227a5f9727381cfba0bbb44a0c9" +
+                       "25b8d31d72083d9cb4dc1da278f3a4e4"
+----
+
+[[hash_registry_sha512]]
+==== SHA-2 SHA-512
+
+[source]
+----
+input("BEGIN:VCARD") = "a2d5b1339599039a7058d8446442f2cb" +
+                       "341a149064eacb31fdc410e57e239849" +
+                       "88efffc6f15842a6a6ae08fb4d791d2f" +
+                       "9dd9dab4cf724f8e75b9fff2c21d3e1c"
+----
+
+[[hash_registry_sha512224]]
+==== SHA-2 SHA-512/224
+
+[source]
+----
+input("BEGIN:VCARD") = ""
+----
+
+[[hash_registry_sha512256]]
+==== SHA-2 SHA-512/256
+
+[source]
+----
+input("BEGIN:VCARD") = ""
+----
+
+[[hash_registry_whirlpool]]
+==== WHIRLPOOL (512-bit)
+
+[source]
+----
+input("BEGIN:VCARD") = "6e9ca195e4e87afcc624fa88334088fb" +
+                       "71038273b16cb1e47888072c03cfaf79" +
+                       "29539375c5ff92fbd82b73924ed60b1d" +
+                       "c9bb17bdb1bd2447cf2d3218a356736a"
+----
+
+[[hash_registry_streebog_256]]
+==== STREEBOG-256
+
+[source]
+----
+input("BEGIN:VCARD") = ""
+----
+
+[[hash_registry_streebog_512]]
+==== STREEBOG-512
+
+[source]
+----
+input("BEGIN:VCARD") = ""
+----
+
+[[hash_registry_sha3_224]]
+==== SHA-3-224
+
+[source]
+----
+input("BEGIN:VCARD") = "630d7879cac76d221565dcc335bff595" +
+                       "158b3496713910cc92166762"
+----
+
+[[hash_registry_sha3_256]]
+==== SHA-3-256
+
+[source]
+----
+input("BEGIN:VCARD") = "f1fcbc9bddcd44b1e50db99a277bc868" +
+                       "61736eb32cb30ef7e7a2c9ef95c05d50"
+----
+
+[[hash_registry_sha3_384]]
+==== SHA-3-384
+
+[source]
+----
+input("BEGIN:VCARD") = "2d27f6dccb17bf6da9800386aae4a991" +
+                       "cfdebc4f3a971f7d0e5264aa0c7b1394" +
+                       "514c2eb5bd724f0702062935de9fd92d"
+----
+
+[[hash_registry_sha3_512]]
+==== SHA-3-512
+
+[source]
+----
+input("BEGIN:VCARD") = "ceb5ab39356ce3440d99375a3098cfa5" +
+                       "20db3d54a3c15184be9f19f6483165e7" +
+                       "8769d4cf2e7f0976422ed4856122c957" +
+                       "d22a3c4b922b733ccefc802eed753027"
+----
+
+[[hash_registry_sm3]]
+==== SM3 (256-bits)
+
+[source]
+----
+input("BEGIN:VCARD") = ""
+----
+
+[[hash_registry_blake2b256]]
+==== BLAKE2b-256
+
+[source]
+----
+input("BEGIN:VCARD") = ""
+----
+
+[[hash_registry_blake2b384]]
+===== BLAKE2b-384
+
+[source]
+----
+input("BEGIN:VCARD") = ""
+----
+
+[[hash_registry_blake2b512]]
+==== BLAKE2b-512
+
+[source]
+----
+input("BEGIN:VCARD") = ""
+----
+
+[[hash_registry_blake2s224]]
+==== BLAKE2s-224
+
+[source]
+----
+input("BEGIN:VCARD") = ""
+----
+
+[[hash_registry_blake2s256]]
+==== BLAKE2s-256
+
+[source]
+----
+input("BEGIN:VCARD") = ""
+----
+
+[[hash_registry_shake128]]
+==== SHAKE-128
+
+[source]
+----
+input("BEGIN:VCARD") = ""
+----
+
+[[hash_registry_shake256]]
+==== SHAKE-256
+
+[source]
+----
+input("BEGIN:VCARD") = ""
+----
+
+[[hash_registry_cshake128]]
+==== cSHAKE-128
+
+[source]
+----
+input("BEGIN:VCARD", L, N, S) = ""
+----
+
+[[hash_registry_cshake256]]
+==== cSHAKE-256
+
+[source]
+----
+input("BEGIN:VCARD", L, N, S) = ""
+----
+
+[[hash_registry_parallel128]]
+==== ParallelHash128
+
+[source]
+----
+input("BEGIN:VCARD", B, L, S) = ""
+----
+
+[[hash_registry_parallel256]]
+==== ParallelHash256
+
+[source]
+----
+input("BEGIN:VCARD", B, L, S) = ""
+----
+
+
+

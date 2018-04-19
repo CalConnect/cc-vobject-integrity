@@ -1,0 +1,10 @@
+<reference anchor='KECCAK' target='http://keccak.noekeon.org'>
+  <front>
+    <title>The KECCAK sponge function family</title>
+    <author fullname='Guido Bertoni' initials='G.' surname='Bertoni'></author>
+    <author fullname='Joan Daemen' initials='J.' surname='Daemen'></author>
+    <author fullname='Michaël Peeters' initials='M.' surname='Peeters'></author>
+    <author fullname='Gilles Van Assche' initials='G.' surname='Van Assche'></author>
+    <date month='December' year='2016'/>
+  </front>
+</reference>

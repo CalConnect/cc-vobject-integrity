@@ -1,0 +1,36 @@
+
+[[security]]
+== Security Considerations
+
+* The function of the CHECKSUM property depends on the collision-free
+  property of cryptographic hash functions. However, as time passes,
+  today's recommended cryptographic hash functions may no longer be
+  considered reliable in the future. Implementers *MUST* take this
+  into account and update its security profile according to the latest
+  best practice on cryptographic hash functions.
+
+* The CHECKSUM property is not designed to protect against intentional
+  and unauthorized modification. A malicious party with access to the
+  vObject (such as a man-in-the-middle attack (<<RFC3552,3.3.5>>;
+  <<RFC4949,4>>. Definition for
+  'man-in-the-middle') could both modify the data and the CHECKSUM
+  property at the same time and prevent detection.
+
+* The CHECKSUM property is not designed to address data authenticity
+  (<<ISO-IEC-27000,2.8>>; <<RFC3552,2.1.3>>) concerns. A
+  malicious party may send a vObject posing as another entity. This
+  document does not protect against that situation.
+
+* While many vObject properties can be used to transport URIs, the
+  CHECKSUM property specifically does not allow setting a URI as its
+  value due to extra security risks raised during the reference step to
+  a URI (<<RFC3986,7>>). In any case, it is easy for an attacker
+  to directly modify the CHECKSUM instead of modifying the results at a
+  third-party URI, and therefore would not improve integrity protection
+  of the vObject.
+
+* Security considerations around vObject formats in the following
+  documents *MUST* be adhered to:
+
+  * vCard: <<RFC6350>>
+  * iCalendar: <<RFC5545>>, <<RFC5789>>, <<RFC4791>>

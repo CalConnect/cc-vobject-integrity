@@ -1,0 +1,75 @@
+
+== TODOs
+
+* Add CalDAV mechanisms and recommendations
+* Fill in missing example hashes
+* Fully replace normalization process with the vObject one,
+  remove normalization process here
+
+[[introduction]]
+== Introduction
+
+The ubiquitous vCard and iCalendar standards, also known together as the
+"vObject" family of standards <<I-D.calconnect-vobject-vformat>>,
+powers digital contact exchanges, calendaring and scheduling on billions
+of devices today.
+
+Integrity <<RFC3552,2.1.2>> is a key property of "information security"
+defined as the "preservation of confidentiality, integrity and
+availability of information" <<ISO-IEC-27000,2.33>>. When provided with
+a vObject, however, there is no inherent method to detect its own
+data integrity.
+
+In reality, people are known to exchange vCard and iCalendar data
+through unreliable means, which could affect data integrity during
+transport, such as Internet mail <<RFC5322>> and QR Codes
+<<ISO-IEC-18004>>. On the other hand, there are implementations that
+store vCard and/or iCalendar content on disk, which could be subject to
+silent corruption.
+
+Previous standards were created in a time where integrity concerns were
+less widespread, and relied solely on data transport, application and
+storage integrity without considering on whether the content
+transmitted, processed or retrieved was as intended without corruption.
+
+This document specifically deals with information integrity in face of
+the following risks:
+
+* vObjects on storage may face silent corruption;
+* vObjects transmitted over networks or other channels may face
+  network corruption that may go undetected by the underlying transport
+  mechanism.
+
+The standards subject to such risks include:
+
+* vCard version 2.1 <<vCard21>>;
+* vCard version 3 <<RFC2425>>, <<RFC2426>>;
+* vCard version 4 <<RFC6350>>; and
+* iCalendar <<RFC5545>>.
+
+// <!-- TODO: add iCalendar formats-->
+
+This document provides:
+
+* a stable mechanism to calculate vObject equivalence using
+  cryptographic hash functions, valid across alternative
+  representations, such as xCard/jCard and xCal/jCal;
+* introduces a new property CHECKSUM to vObjects;
+* usage of the CHECKSUM property on CardDAV <<RFC6352>> and CalDAV
+  <<RFC4791>> systems;
+* alternative representations of the CHECKSUM property for xCard
+  <<RFC6351>>, jCard <<RFC7095>>, xCal <<RFC6321>> and jCal <<RFC7265>>
+  representations of this property; and
+* guidance to implementers on dealing with integrity concerns and the
+  proper usage of CHECKSUM.
+
+Organizations that implement information security management systems,
+such as <<ISO-IEC-27001>>, *MAY* find this document applicable to their
+own processes.
+
+The decision to update the existing vCard version 4
+<<RFC6350>> and iCalendar <<RFC5545>> standards were chosen to
+maintain maximum backwards compatibility.
+
+This work is produced by the CalConnect TC-VCARD <<CALCONNECT-VCARD>>
+and TC-CALENDAR <<CALCONNECT-CALENDAR>> committees.

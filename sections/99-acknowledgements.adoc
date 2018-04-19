@@ -1,0 +1,12 @@
+
+[[acknowledgements]]
+== Acknowledgements
+
+The authors wish to thank the following parties who helped this
+materialize and for their support of a better world.
+
+* their families
+* the CalConnect TC-VCARD committee
+* members and the Board of Directors of CalConnect
+
+This specification was developed by the CalConnect TC-VCARD committee.

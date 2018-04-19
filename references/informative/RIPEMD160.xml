@@ -1,0 +1,10 @@
+<reference anchor='RIPEMD160' target='http://homes.esat.kuleuven.be/~bosselae/ripemd160.html'>
+  <front>
+    <title>RIPEMD-160: A Strengthened Version of RIPEMD</title>
+    <author initials='H.' surname='Dobbertin'></author>
+    <author initials='A.' surname='Bosselaers'></author>
+    <author initials='B.' surname='Preneel'></author>
+    <date month='April' year='1996'/>
+  </front>
+</reference>
+

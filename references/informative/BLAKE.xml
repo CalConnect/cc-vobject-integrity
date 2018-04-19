@@ -1,0 +1,10 @@
+<reference anchor='BLAKE' target='https://131002.net/blake/book'>
+  <front>
+    <title>The Hash Function BLAKE</title>
+    <author fullname='Jean-Philippe Aumasson' initials='J-P.' surname='Aumasson'></author>
+    <author fullname='Willi Meier' initials='W.' surname='Meier'></author>
+    <author fullname='Raphael C.-W. Phan' initials='R. C.-W' surname='Phan'></author>
+    <author fullname='Luca Henzen' initials='L.' surname='Henzen'></author>
+    <date month='January' year='2015'/>
+  </front>
+</reference>
