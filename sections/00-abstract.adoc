@@ -3,9 +3,9 @@
 This document specifies an integrity checking mechanism and related
 properties for:
 
-* vObject <<I-D.calconnect-vobject-vformat>>
-* vCard version 4 (vCard v4) <<RFC6350>>; and
+* vObject (I-D.calconnect-vobject-vformat)
+* vCard version 4 (vCard v4) (RFC 6350); and
 * iCalendar (Internet Calendaring and Scheduling Core Object
-  Specification) <<RFC5545>>
+  Specification) (RFC 5545)
 
 This work is produced by the CalConnect TC-VCARD and TC-CALENDAR committees.

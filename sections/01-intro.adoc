@@ -22,15 +22,18 @@ data integrity.
 
 In reality, people are known to exchange vCard and iCalendar data
 through unreliable means, which could affect data integrity during
-transport, such as Internet mail <<RFC5322>> and QR Codes
-<<ISO-IEC-18004>>. On the other hand, there are implementations that
-store vCard and/or iCalendar content on disk, which could be subject to
-silent corruption.
+its data lifecycle:
 
-Previous standards were created in a time where integrity concerns were
+* transport of vObject data, such as over Internet mail <<RFC5322>> and
+  QR Codes <<ISO-IEC-18004>>;
+* storage of vObject content, such as on disk, can be subject to silent
+  corruption.
+
+Previous standards were established in a time where integrity concerns were
 less widespread, and relied solely on data transport, application and
 storage integrity without considering on whether the content
-transmitted, processed or retrieved was as intended without corruption.
+transmitted, processed or retrieved was as intended without modification or
+corruption.
 
 This document specifically deals with information integrity in face of
 the following risks:
@@ -42,12 +45,13 @@ the following risks:
 
 The standards subject to such risks include:
 
-* vCard version 2.1 <<vCard21>>;
-* vCard version 3 <<RFC2425>>, <<RFC2426>>;
-* vCard version 4 <<RFC6350>>; and
-* iCalendar <<RFC5545>>.
-
-// <!-- TODO: add iCalendar formats-->
+* vObject <<I-D.calconnect-vobject-vformat>>;
+* vCard versions 2.1 <<vCard21>>, 3 <<RFC2425>> <<RFC2426>> and 4 <<RFC6350>>;
+* iCalendar <<RFC5545>>;
+* Calendar Availability Extensions <<RFC7953>>;
+* alternative formats for iCalendar and vCard, including
+xCal <<RFC6321>>, jCal <<RFC7265>>,
+xCard <<RFC6351>>, and jCard <<RFC7095>>.
 
 This document provides:
 

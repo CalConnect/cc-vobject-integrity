@@ -9,5 +9,25 @@ document are to be interpreted as described in BCP 14
 <<RFC2119>> <<RFC8174>> when, and only when, they appear in
 all capitals, as shown here.
 
+The key words "*Private Use*", "*Experimental Use*",
+"*Hierarchical Allocation*", "*First Come First Served*",
+"*Expert Review*", "*Specification Required*", "*RFC Required*",
+"*IETF Review*", "*Standards Action*" and "*IESG Approval*" in
+this document are to be interpreted as described in <<RFC8126,4>>.
+
 The definitions from <<I-D.calconnect-vobject-vformat>> are inherited
 in this document unless explicitly overriden.
+
+=== Definitions
+
+Implementation Supported Checksum:: An implementation is considered to
+support checksum calculation if it is able to calculate the checksum
+without external aid, i.e., it supports the parameters specified to
+calculate the checksum value.
+
+Source Preferred Checksum Value (SPCV)::
+A CHECKSUM property that includes a PREF property parameter.
+
+Receiver Preferred Checksum Value (RPCV)::
+The CHECKSUM property that uses the implementation's preferred
+checksum parameters.

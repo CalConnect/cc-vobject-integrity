@@ -43,23 +43,23 @@ END:VCARD
 
 [source]
 ----
-NORMALIZE-PROPERTY("VERSION:4.0") =
+PREPHASH-PROPERTY("VERSION:4.0") =
   "VERSION:TEXT/[4.0]?#[]"
 
-NORMALIZE-PROPERTY("KIND:individual") =
+PREPHASH-PROPERTY("KIND:individual") =
   "KIND:TEXT/[individual]?#[]"
 
-NORMALIZE-PROPERTY("FN:Martin Van Buren") =
+PREPHASH-PROPERTY("FN:Martin Van Buren") =
   "FN:TEXT/[Martin Van Buren]?#[]"
 
-NORMALIZE-PROPERTY("N:Van Buren;Martin;;;Hon.") =
+PREPHASH-PROPERTY("N:Van Buren;Martin;;;Hon.") =
   "N:TEXT/[Van Buren;Martin;;;Hon.]?#[]"
 
-NORMALIZE-PROPERTY("TEL;VALUE=uri;PREF=1;HASHA="voice,home":") =
+PREPHASH-PROPERTY("TEL;VALUE=uri;PREF=1;HASHA="voice,home":") =
   "TEL:URI/[tel:+1-888-888-8888;ext=8888]" +
   "?#[{PREF:[1]};{TYPE:[home;voice]}]"
 
-NORMALIZE-PROPERTY("CHECKSUM;VALUE=TEXT;HASHA=sha512:") =
+PREPHASH-PROPERTY("CHECKSUM;VALUE=TEXT;HASHA=sha512:") =
   "CHECKSUM:TEXT/[]?#[{HASHA:[sha512]}]"
 ----
 
@@ -92,7 +92,7 @@ HASH("CHECKSUM:TEXT/[]?#[{HASHA:[sha512]}]") =
 
 [source]
 ----
-HASH-AND-NORMALIZE-PROPERTIES(properties) = LIST-TO-TEXT(
+HASH-AND-PREPHASH-PROPERTIES(properties) = LIST-TO-TEXT(
   [
     "CHECKSUM:" +
       HASH("CHECKSUM:TEXT/[]?#[{HASHA:[sha512];VALUE:[TEXT]}]"),
@@ -116,7 +116,7 @@ HASH-AND-NORMALIZE-PROPERTIES(properties) = LIST-TO-TEXT(
 
 [source]
 ----
-NORMALIZE-COMPONENT(component) =
+PREPHASH-COMPONENT(component) =
 "BEGIN:VCARD:CHECKSUM
 CHECKSUM:65d32764ab8c9fcdd324f24409c65a45529f4a6df5cd070378463a177de04917
 FN:a9124e1bd40c8a2cb4031b4140629e2472046f837dddc379a257d5f6e7bceedd

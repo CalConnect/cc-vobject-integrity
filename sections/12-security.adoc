@@ -11,13 +11,12 @@
 
 * The CHECKSUM property is not designed to protect against intentional
   and unauthorized modification. A malicious party with access to the
-  vObject (such as a man-in-the-middle attack (<<RFC3552,3.3.5>>;
-  <<RFC4949,4>>. Definition for
-  'man-in-the-middle') could both modify the data and the CHECKSUM
+  vObject (such as a "man-in-the-middle attack" <<RFC3552,3.3.5>>
+  <<RFC4949,4>>) could both modify the data and the CHECKSUM
   property at the same time and prevent detection.
 
 * The CHECKSUM property is not designed to address data authenticity
-  (<<ISO-IEC-27000,2.8>>; <<RFC3552,2.1.3>>) concerns. A
+  (<<ISO-IEC-27000,2.8>> <<RFC3552,2.1.3>>) concerns. A
   malicious party may send a vObject posing as another entity. This
   document does not protect against that situation.
 
@@ -32,5 +31,5 @@
 * Security considerations around vObject formats in the following
   documents *MUST* be adhered to:
 
-  * vCard: <<RFC6350>>
-  * iCalendar: <<RFC5545>>, <<RFC5789>>, <<RFC4791>>
+** vCard: <<RFC6350>>
+** iCalendar: <<RFC5545>>, <<RFC5789>>, <<RFC4791>>

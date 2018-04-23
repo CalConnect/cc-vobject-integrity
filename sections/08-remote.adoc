@@ -1,3 +1,4 @@
+
 == Using CHECKSUM With Server Support
 
 === Usage of CHECKSUM in vCards on CardDAV servers
@@ -103,6 +104,7 @@ stored in calendar object resources on a CalDAV server.
 A CalDAV server is *RECOMMENDED* to return iCalendar data with
 integrity protection.
 
+
 ==== Creating Calendar Resources
 
 A CalDAV client typically updates the calendar object resource data via
@@ -117,8 +119,3 @@ calendar user agents to schedule calendar components between calendar
 users.
 
 This specification is compatible with iTIP transfer of iCalendar data.
-
-
-
-
-

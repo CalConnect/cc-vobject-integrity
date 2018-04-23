@@ -4,42 +4,47 @@
 
 === Common vObject Registries
 
-The IANA has created and will maintain the following registries for
-vObject elements with pointers to appropriate reference documents. The
-registries are grouped together under the heading "Common vObject
-Elements".
+The IANA has created and will maintain the following registries
+under the heading "vObject Common Elements".
 
+The registry policy is *Specification Required*; any newly proposed
+specification *MUST* be reviewed by the designated expert.
 
-=== Registering New Hash Functions And Hash Function Specifiers
+=== Registration Procedure For New Hash Functions And Hash Function Specifiers
 
 This section defines the process for registering new or modified hash
 functions and hash function specifiers with IANA.
 
-
-==== Registration Procedure
-
-The IETF mailing lists for vCard (<mailto:vcarddav@ietf.org>) and
-iCalendar (<mailto:vcaldav@ietf.org>) *SHOULD* be used for public
-discussion of additional hash functions and hash function specifiers for
-the CHECKSUM property prior to registration.
+The IETF mailing lists for vObject (\vobject@ietf.org),
+CardDAV (\vcarddav@ietf.org) and CalDAV (\vcaldav@ietf.org)
+*SHOULD* be used for public discussion of additional hash functions
+and hash function specifiers for the CHECKSUM property prior to
+registration.
 
 //<!-- TODO: refer to https://tools.ietf.org/html/rfc6920#section-9.4--> <<RFC6920,9.4>>
-
-//<!-- TODO: modify, below lifted from RFC6350 -->
 
 The registration procedure specified in <<RFC6350>> should be followed to
 register additional hash functions and hash function specifiers for
 vObjects.
 
-Registration of new vObject hash functions and their specifiers
-*MUST* be reviewed by the designated expert and published in an RFC.
 
-A Standards Track RFC is *REQUIRED* for:
+[[vc_hash_function_registry]]
+=== vObject Hash Functions Registry
 
-* Registration of new hash functions or hash function specifiers.
-* Modification of hash functions and hash function specifiers previously
-  documented in a Standards Track RFC.
+The registry policy is *Specification Required*; any newly proposed
+registration *MUST* be reviewed by the designated expert.
 
+The registry *SHOULD* contain the following note:
+
+----
+Note: Experts are to verify that the proposed registration
+*SHOULD* provide benefits for the wider vObject community,
+and provides a publicly-available standard that can be implemented in
+an interoperable way. Hash functions are preferrably approved by the CFRG
+with references to IETF-published documents. The "Reference" value should
+point to a document that details the implementation of this hash function
+in the vObject context.
+----
 
 ==== Registration Template for vObject Hash Functions
 
@@ -56,34 +61,7 @@ Example(s)::
   One or more examples of input and output of the hash function.
 
 
-==== Registration Template for vObject Hash Function Specifiers
-
-A Hash Function Specifier is defined by completing the following
-template.
-
-Identifier::
-  Identifier of the hash function that this specifier applies to.
-
-Description::
-  A short but clear description of the hash function specifier.
-
-Order::
-  In which position in the specifier list should this specifier be
-  found.
-
-Value Type::
-  The type of specifier value (e.g., text).
-
-Example(s)::
-  One or more examples of input and output of the hash function.
-
-
-
-
-[[vc_hash_function_registry]]
-==== vObject Hash Functions Registry
-
-<!--Make this true.-->
+==== Initial Registrations
 
 The following table has been used to initialize the Hash Functions
 registry.
@@ -120,14 +98,24 @@ registry.
 |===
 
 [[vc_hash_function_specifier_registry]]
-==== vObject Hash Function Specifier Registry
+=== vObject Hash Function Specifier Registry
 
-//<!--Make this true.-->
+The registry policy is *Specification Required*; any newly proposed
+registration *MUST* be reviewed by the designated expert.
 
-The following table has been used to initialize the Hash Functions
-Specifier registry.
+The registry *SHOULD* contain the following note:
 
-The "Specifier(s)" column below *SHOULD* adhere to the following
+----
+Note: Experts are to verify that the proposed registration
+*SHOULD* provide benefits for the wider vObject community,
+and provides a publicly-available standard that can be implemented in
+an interoperable way. Hash function specifiers are preferrably approved by the CFRG
+with references to IETF-published documents. The "Reference" value should
+point to a document that details the implementation of this hash function
+in the vObject context.
+----
+
+The "Specifier(s)" column in the registry *SHOULD* adhere to the following
 format:
 
 ABNF:
@@ -142,6 +130,33 @@ specifier-value-type = value-type
 specifier-description = text
 ----
 
+==== Registration Template for vObject Hash Function Specifiers
+
+A Hash Function Specifier is defined by completing the following
+template.
+
+Identifier::
+  Identifier of the hash function that this specifier applies to.
+
+Description::
+  A short but clear description of the hash function specifier.
+
+Order::
+  In which position in the specifier list should this specifier be
+  found.
+
+Value Type::
+  The type of specifier value (e.g., text).
+
+Example(s)::
+  One or more examples of input and output of the hash function.
+
+==== Initial Registrations
+
+The following table has been used to initialize the Hash Function
+Specifier registry.
+
+
 |===
 | ID | Order | Description | Value Type | Example(s)
 
@@ -154,12 +169,6 @@ specifier-description = text
 | cshake256  | 2 | N: function-name | text    | <<hash_registry_cshake256>>
 | cshake256  | 3 | S: customization string | text    | <<hash_registry_cshake256>>
 
-|===
-
-
-|===
-| ID | Order | Description | Value Type | Example(s)
-
 | parallel128 | 1 | B: block size in bytes | text    | <<hash_registry_parallel128>>
 | parallel128 | 2 | L: output bit length    | integer | <<hash_registry_parallel128>>
 | parallel128 | 3 | S: customization string | text    | <<hash_registry_parallel128>>
@@ -170,9 +179,10 @@ specifier-description = text
 |===
 
 
+
 === Property Registrations
 
-// <!-- TODO: make this true.-->
+// TODO: Register ourselves in the vObject registry (property, parameter, parameter value)
 
 This document defines the following new properties to be added to the
 registries defined in:

@@ -1,6 +1,6 @@
 = Integrity Protection for vObject, vCard and iCalendar
 :doctype: internet-draft
-:name: draft-calconnect-vobject-integrity-00
+:name: draft-calconnect-vobject-integrity-01
 :abbrev: vObject Integrity
 :status: standard
 :ipr: trust200902
@@ -8,7 +8,7 @@
 :area: internet
 :intended-series: full-standard
 :workgroup: Calendaring Extensions
-:revdate: 2018-04-18T00:00:00Z
+:revdate: 2018-04-19T00:00:00Z
 :updates: 5545,6321,6350,6351,7953,7265,7095
 :fullname: Ronald Henry Tse
 :lastname: Tse

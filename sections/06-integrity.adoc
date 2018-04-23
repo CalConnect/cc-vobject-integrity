@@ -1,3 +1,4 @@
+
 [[checksum_validation]]
 == Integrity Validation
 
@@ -17,11 +18,11 @@ it is *RECOMMENDED* that:
 An implementation that supports CHECKSUM *MUST* adhere to the
 following rules:
 
-* If it supports vObject import (including network import), it
+* If it supports importing of vObjects (including network import), it
   *MUST* verify the provided CHECKSUM property value immediately prior
   to import to ensure the vObject has not been damaged.
 
-* If it supports vObject export (including network export), it
+* If it supports exporting of vObject (including network export), it
   *MUST* insert at least one CHECKSUM property with corresponding
   checksum values to the vObject immediately prior to exporting, to
   ensure the recipient of the vObject can check against data
@@ -38,19 +39,6 @@ Invalid:: This vObject is corrupt.
 
 Unable to determine:: This vObject does not provide enough
 information to make a validity judgement.
-
-
-=== Definitions
-
-Implementation Supported Checksum:: An implementation is considered to
-"support checksum calculation" if it is able to calculate the checksum
-without external aid, i.e., it supports the parameters specified to
-calculate the checksum value.
-
-Source Preferred Checksum Value (SPCV):: A CHECKSUM property that includes a PREF property parameter.
-
-Receiver Preferred Checksum Value (RPCV):: The CHECKSUM property that uses the implementation's preferred
-checksum parameters.
 
 
 === Integrity Validity When Presented With A Single CHECKSUM Property
@@ -151,48 +139,31 @@ Steps to calculate CHECKSUM:
 
 **** Otherwise, add the extra CHECKSUM property as described above.
 
-.. Calculate hash of each property individually (including the
-     newly added CHECKSUM property).
+.. Normalize the vObject in data model form (in accordance with <<I-D.calconnect-vobject-vformat>>)
 
-... Obtain string representation of a property.
+.. For each normalized property (including the newly added CHECKSUM property):
 
-.... Obtain string representation of a property parameter.
+... For each normalized property parameter:
 
-..... Normalize property parameter values.
+.... For each normalized property parameter value:
 
-...... Sort property parameter values alphabetically.
+..... Obtain pre-hash string representation of the property parameter value
+..... Calculate hash value of the string representation of the property parameter value
 
-...... Concatenate property parameter values.
+.... Obtain pre-hash string representation of the property parameter using hashes of its property parameter values
+.... Calculate hash value of the string representation of the property parameter
 
-..... Normalize property parameter key: cast to uppercase.
+... For each normalized property value:
 
-..... Concatenate string form of property parameter key, value type
-           and values.
+.... Obtain pre-hash string representation of the property value
+.... Calculate hash value of the string representation  of the property value
 
-.... Normalize property key: cast to uppercase.
+... Obtain pre-hash string representation of the property using hashes of its property values and property parameters
+... Calculate hash value of the string representation of the property
 
-.... Normalize property value type: fill in value type if missing, and
-         cast to uppercase.
+.. Obtain pre-hash string representation of the vObject itself using hashes of its properties
 
-.... Normalize property values.
-
-..... Sort property values alphabetically.
-
-..... Concatenate property values.
-
-.... Concatenate string form of property key, value type and values.
-
-... Calculate hash of a property using the selected cryptographic
-       hash function on the string representation of the property.
-
-... Convert hash into a normalized string representation.
-
-.. Concatenate hashes (in string representation) of the collection of
-     properties.
-
-.. Calculate hash of the combined properties using the selected
-     cryptographic hash function on the string representation of the
-     collection of properties.
+.. Calculate hash value of the string representation of the vObject.
 
 . This procedure is repeated to calculate the value for every CHECKSUM
    property (which may specify different cryptographic hash algorithms
@@ -206,4 +177,3 @@ Steps to calculate CHECKSUM:
 . Enter the calculated CHECKSUM value for each CHECKSUM property.
 
 . The checksum calculation procedure is complete.
-
