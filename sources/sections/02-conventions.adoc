@@ -16,7 +16,7 @@ The key words "*Private Use*", "*Experimental Use*",
 this document are to be interpreted as described in <<RFC8126,4>>.
 
 The definitions from <<I-D.calconnect-vobject-vformat>> are inherited
-in this document unless explicitly overriden.
+in this document unless explicitly overridden.
 
 === Definitions
 

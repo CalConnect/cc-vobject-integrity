@@ -1,15 +1,12 @@
-= Integrity Protection for vObject, vCard and iCalendar
-:doctype: internet-draft
-:name: draft-calconnect-vobject-integrity-01
-:abbrev: vObject Integrity
-:status: standard
-:ipr: trust200902
-:submissionType: IETF
-:area: internet
-:intended-series: full-standard
-:workgroup: Calendaring Extensions
-:revdate: 2018-04-19T00:00:00Z
-:updates: 5545,6321,6350,6351,7953,7265,7095
+= vObject -- Integrity protection for vObject, vCard and iCalendar
+:docnumber: 51002
+:doctype: standard
+:revdate: 2018-04-19
+:edition: 1
+:status: committee-draft
+:revdate: 2018-11-30
+:published-date: 2018-11-30
+:technical-committee: VCARD
 :fullname: Ronald Henry Tse
 :lastname: Tse
 :forename_initials: R. H.
@@ -19,15 +16,11 @@
 :country: Hong Kong
 :uri: https://www.ribose.com
 :email: ronald.tse@ribose.com
-:fullname_2: Peter Kwan Yu Tam
-:lastname_2: Tam
-:forename_initials_2: P.
-:organization_2: Ribose
-:street_2: Suite 1111, 1 Pedder Street
-:city_2: Central
-:country_2: Hong Kong
-:uri_2: https://www.ribose.com
-:email_2: peter.tam@ribose.com
+:imagesdir: images
+:mn-document-class: cc
+:mn-output-extensions: xml,html,pdf,rxl
+:local-cache-only:
+:data-uri-image:
 
 ////
 :fullname_3: Cyrus Daboo
@@ -67,20 +60,34 @@
 include::sections/00-abstract.adoc[]
 
 include::sections/01-intro.adoc[]
+
+include::sections/02-normrefs.adoc[]
+
 include::sections/02-conventions.adoc[]
+
 include::sections/03-symbols.adoc[]
+
 include::sections/04-properties.adoc[]
+
 include::sections/05-prop-params.adoc[]
+
 include::sections/06-integrity.adoc[]
+
 include::sections/07-hash_functions.adoc[]
+
 include::sections/08-remote.adoc[]
+
 include::sections/10-alternative.adoc[]
+
 include::sections/11-implementation.adoc[]
+
 include::sections/12-security.adoc[]
+
 include::sections/13-iana.adoc[]
 
-// must give references before appendix!
-
-include::sections/98-references.adoc[]
 include::sections/97-examples.adoc[]
+
 include::sections/99-acknowledgements.adoc[]
+
+include::sections/90-bibliography.adoc[]
+

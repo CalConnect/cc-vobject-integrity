@@ -1,0 +1,10 @@
+---
+metanorma:
+  source:
+    files:
+      - sources/cc-51002.adoc
+      - sources/draft-calconnect-vobject-integrity.adoc
+
+  collection:
+    name: vObject -- Integrity protection for vObject, vCard and iCalendar
+    organization: CalConnect
