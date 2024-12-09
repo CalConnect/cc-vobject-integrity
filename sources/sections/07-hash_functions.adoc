@@ -100,11 +100,11 @@ SHA-512/224 and SHA-512/256.
 [[checksum_whirlpool]]
 ==== The WHIRLPOOL Hash Function
 
-WHIRLPOOL is a hash function that operates on messages less than 2^256
+WHIRLPOOL is a hash function that operates on messages less than stem:[2^256]
 bits in length, and produces a hash value of 512 bits <<WHIRLPOOL>>.
 
 It uses Merkle-Damgard strengthening and the Miyaguchi-Preneel hashing
-scheme with a dedicated 512-bit block cipher called "W" <<WHIRLPOOL>>.
+scheme with a dedicated 512-bit block cipher called stem:[W] <<WHIRLPOOL>>.
 
 
 [[checksum_sm3]]
