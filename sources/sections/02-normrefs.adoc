@@ -1,0 +1,15 @@
+
+[bibliography]
+== Normative references
+
+* [[[I-D.calconnect-vobject-vformat,IETF I-D.calconnect-vobject-vformat]]]
+* [[[RFC2119,IETF RFC 2119]]]
+* [[[RFC5545,IETF RFC 5545]]]
+* [[[RFC6321,IETF RFC 6321]]]
+* [[[RFC6350,IETF RFC 6350]]]
+* [[[RFC6351,IETF RFC 6351]]]
+* [[[RFC6352,IETF RFC 6352]]]
+* [[[RFC7095,IETF RFC 7095]]]
+* [[[RFC7265,IETF RFC 7265]]]
+* [[[RFC8126,IETF RFC 8126]]]
+* [[[RFC8174,IETF RFC 8174]]]

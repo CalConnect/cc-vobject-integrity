@@ -1,0 +1,124 @@
+= CalConnect Standard: vObject -- Integrity protection for vObject, vCard and iCalendar
+
+This work item belongs to TC CALENDAR.
+
+image:https://github.com/CalConnect/cc-vobject-integrity/actions/workflows/generate.yml/badge.svg["Build Status", link="https://github.com/CalConnect/cc-vobject-integrity/actions/workflows/generate.yml"]
+
+This document is available in its rendered forms here:
+
+* https://calconnect.github.io/cc-vobject-integrity/[CalConnect+IETF: vObject -- Integrity protection for vObject, vCard and iCalendar]
+
+
+== General
+
+This document specifies an integrity checking mechanism and related
+properties for:
+
+* vObject (I-D.calconnect-vobject-vformat)
+* vCard version 4 (vCard v4) (RFC 6350); and
+* iCalendar (Internet Calendaring and Scheduling Core Object
+  Specification) (RFC 5545)
+
+This work is produced by the CalConnect TC-VCARD and TC-CALENDAR committees.
+
+The document is published as the following:
+
+* CalConnect CC 51002
+* IETF draft-calconnect-vobject-integrity
+
+
+== Structure
+
+`script.rb`::
+
+
+`sources/`::
+source of documents and models
+
+`sources/cc-51002.adoc`::
+CalConnect CC 51002 standard.
+
+`sources/draft-calconnect-vobject-integrity.adoc`::
+IETF draft-calconnect-vobject-integrity, dual-published from CC 51002.
+
+`_site/`::
+(automatically generated using `metanorma site generate`) published document.
+
+
+== Testing vObject integrity calculations
+
+Testing code for vObject integrity calculations is included here to ensure the
+documented specification contains accurate values.
+
+Prerequisites:
+
+[source,sh]
+----
+$ brew install cryptopp
+----
+
+Running:
+
+[source,sh]
+----
+bundle exec script.rb
+----
+
+
+== Fetching the document
+
+Click on "Code > Local" to clone this repository.
+
+
+== Installing build tools
+
+See https://www.metanorma.org/install/
+
+
+== Running via Docker or locally
+
+If you have installed the build tools locally, and wish to run the
+locally-installed compilation tools, there is nothing further to set.
+
+If you don't want to deal with local dependencies, use the docker:
+
+[source,sh]
+----
+docker run -v "$(pwd)":/metanorma -w /metanorma -it metanorma/mn metanorma site generate --agree-to-terms
+----
+
+
+== Building the document
+
+[source,sh]
+----
+metanorma site generate --agree-to-terms
+----
+
+The generated documents are accessible under `_site/`.
+
+
+== Iterating the document
+
+[source,sh]
+----
+metanorma site generate --agree-to-terms
+open _site/index.html
+----
+
+
+== IETF: Checking against idnits
+
+https://tools.ietf.org/tools/idnits/[idnits] is the RFC checking tool prior to
+submissions.
+
+[source,sh]
+----
+idnits draft-ietf-calext-subscription-upgrade.nits
+----
+
+
+== License
+
+Copyright its respective authors and CalConnect.
+

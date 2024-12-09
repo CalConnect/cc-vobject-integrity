@@ -1,4 +1,4 @@
-[abstract]
+.Abstract
 
 This document specifies an integrity checking mechanism and related
 properties for:
