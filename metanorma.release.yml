@@ -1,3 +1,5 @@
+# metanorma.release.yml — cc-vobject-integrity
+
 documents:
-  - source: sources/cc-51002.adoc
-  - source: sources/draft-calconnect-vobject-integrity.adoc
+  - pattern: "cc-*"
+    channels: [public/standards]

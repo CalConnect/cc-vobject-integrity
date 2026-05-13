@@ -1,0 +1,5 @@
+# .metanorma/channels.yml — cc-vobject-integrity
+
+channels:
+  - name: public/standards
+    description: "CalConnect documents from cc-vobject-integrity"
